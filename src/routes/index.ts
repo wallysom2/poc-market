@@ -1,5 +1,5 @@
 import express from 'express';
-import StockController from './stock.controller';
+import StockController from '../controllers';
 import { validateStock } from './stock.middleware';
 
 const router = express.Router();
