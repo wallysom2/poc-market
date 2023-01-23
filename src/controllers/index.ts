@@ -1,23 +1,15 @@
 import { Request, Response } from 'express';
-import { StockService } from './stock.service';
+import { ProductService } from '../service';
 
-class StockController {
-  private stockService: StockService;
+export class ProductController {
+    async index(req: Request, res: Response) {
+        const products = await ProductService.getAllProducts();
+        return res.json(products);
+    }
 
-  constructor(stockService: StockService) {
-    this.stockService = stockService;
-  }
-
-  async getStock(req: Request, res: Response) {
-    const stock = await this.stockService.getStock();
-    res.send(stock);
-  }
-
-  async updateStock(req: Request, res: Response) {
-    const { productId, quantity } = req.body;
-    const updatedStock = await this.stockService.updateStock(productId, quantity);
-    res.send(updatedStock);
-  }
+    async store(req: Request, res: Response) {
+        const { name, price } = req.body;
+        const product = await ProductService.createProduct(name, price);
+        return res.json(product);
+    }
 }
-
-export default StockController;

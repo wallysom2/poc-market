@@ -1,11 +1,10 @@
-import express from 'express';
-import StockController from '../controllers';
-import { validateStock } from './stock.middleware';
+import { Router } from 'express';
+import { ProductController } from '../controllers/';
 
-const router = express.Router();
-const stockController = new StockController(new StockService());
+const router = Router();
+const productController = new ProductController();
 
-router.get('/stock', stockController.getStock);
-router.post('/stock', validateStock, stockController.updateStock);
+router.get('/products', productController.index);
+router.post('/products', productController.store);
 
 export default router;

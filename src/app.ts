@@ -1,16 +1,16 @@
 import express from 'express';
-import { createConnection } from 'typeorm';
-import { StockController, StockService, StockRepository } from './controllers';
-import { validateStock } from './middlewares';
-import { router } from './routes';
+import routes from './routes';
+import { connection } from './config/db'
 
-const app = express();
+connection.connect()
+    .then(() => {
+        const app = express();
 
-createConnection().then(async connection => {
+        app.use(express.json());
+        app.use(routes);
 
-    app.use(express.json());
-    app.use(router);
-    app.listen(3000, () => {
-        console.log('Server started on port 3000!');
-    });
-});
+        app.listen(3000, () => {
+            console.log('Server started on port 3000!');
+        });
+    })
+    .catch(error => console.log(error));
